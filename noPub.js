@@ -15,11 +15,24 @@ function removePopin() {
 
 console.log("Anti Pub Activated");
 function tryRemoveElement(getElementFn, removeFn, label, retries = 5, delay = 2000) {
-    const el = getElementFn();
+    let el = null;
+    try {
+        el =getElementFn();
+    } catch (e) {
+        console.warn(`Error getting element for ${label}:`, e);
+    }
     if (el) {
         console.log(`remove ${label}`);
-        if (removeFn == null)
+        if (typeof removeFn == "number") {
+            for (let i = 0; i < removeFn; i++) {
+                const nel = el.parentElement;
+                if (nel == null) {
+                    break;
+                }
+                el = nel;
+            }
             el.remove();
+        }
         else
             removeFn();
     } else if (retries > 0) {
@@ -38,13 +51,13 @@ tryRemoveElement(
 
 tryRemoveElement(
     () => document.getElementById("gimii-root"),
-    null,
+    0,
     "gimii-root"
 );
 
 tryRemoveElement(
-    () => document.getElementsByClassName("cf-icon-adblocker")[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement,
-    null,
+    () => document.getElementsByClassName("cf-icon-adblocker")[0],
+    6,
     "Footer antipub"
 );
 
