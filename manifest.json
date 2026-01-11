@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "EmGAntiPub",
+  "version": "1.0",
+
+  "description": "Anti Pub for Mozilla.org",
+
+  "icons": {
+    "48": "icons/icon.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.larep.fr/*"],
+      "js": ["noPub.js"]
+    }
+  ]
+}
